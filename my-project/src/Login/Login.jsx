@@ -1,12 +1,25 @@
 // src/Login/Login.js
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
+import {auth} from '../Auth/firebase'
 
 export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const handleSubmit = async(e) => {
+        e.preventDefaukt();
+        try{
+            await signInWithEmailAndPassword(auth,email,password);
+            console.log("Logged in Successfully");
+        }
+        catch(error){
+            console.log(error.message);
+        }
+    };
+
     return (
-        <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center ">
+        <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center " onSubmit={handleSubmit}>
             {/* Background Video */}
             <video
                 loop

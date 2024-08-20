@@ -1,6 +1,11 @@
-import React from 'react'
+// import  createUserWithEmailAndPassword  from '../Auth/firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React from 'react';
+import { auth, db } from '../Auth/firebase';
 
+import { setDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
+
 
 function SignupForm() {
     const [firstName, setFirstName] = useState('');
@@ -12,17 +17,38 @@ function SignupForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        console.log('Form submitted:', {
-            firstName,
-            lastName,
-            email,
-            username,
-            password,
-            confirmPassword,
-        });
+        try{
+            await createUserWithEmailAndPassword(auth,email,password);
+            const user = auth.currentUser;
+            console.log(user);
+            if(user){
+                await setDoc(doc(db,"Users",user.uid), {
+                    firstName: firstName, 
+                    lastName: lastName,
+                    email: user.email,
+                    userName: username,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                })
+            }
+            console.log("Form submitted.");
+        }
+
+        catch(error){
+            console.log(error.message);
+        }
+
+        // console.log('Form submitted:', {
+        //     firstName,
+        //     lastName,
+        //     email,
+        //     username,
+        //     password,
+        //     confirmPassword,
+        // });
     };
 
     return (
