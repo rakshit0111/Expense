@@ -31,7 +31,12 @@ const Body = () => {
     const navigate = useNavigate();
 
     const [showModal, setShowModal] = useState(false);
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
 
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!isDropdownOpen);
+    };
 
     const closeModal = () => setShowModal(false);
 
@@ -42,6 +47,10 @@ const Body = () => {
         navigate('/add-plans'); // Redirect to the add-plan page
     };
 
+    const [isExpandedDialogOpen, setIsExpandedDialogOpen] = useState(false);
+    const toggleExpandedDialog = () => {
+        setIsExpandedDialogOpen(!isExpandedDialogOpen);
+    };
 
 
 
@@ -163,7 +172,10 @@ const Body = () => {
                             </div>
                         </div>
 
-                        <div className="w-80 p-4 bg-green-50 hover:bg-green-100 border border-green-200 hover:border-green-300 rounded-lg shadow flex justify-between items-center w-200">
+                        <div
+                            className="w-80 p-4 bg-green-50 hover:bg-green-100 border border-green-200 hover:border-green-300 rounded-lg shadow flex justify-between items-center w-200 cursor-pointer"
+                            onClick={toggleExpandedDialog}
+                        >
                             <div>
                                 <div className="bg-white text-green-800 px-2 py-1 rounded-full text-sm font-medium w-14">
                                     +8.8%
@@ -172,12 +184,36 @@ const Body = () => {
                                 <p className="mt-1 text-2xl font-bold text-gray-900">$8,200</p>
                             </div>
                             <div>
-
                                 <svg className="w-16 h-12" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 20 C 10 10, 20 30, 30 20 S 40 40, 50 30, 60 10, 70 20, 80 30, 90 10, 100 20" stroke="#4B5563" strokeWidth="2" fill="none" />
                                 </svg>
                             </div>
                         </div>
+                        {isExpandedDialogOpen && (
+                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+                                    <h2 className="text-lg font-bold">Detailed Information</h2>
+                                    <p className="mt-4 font-semibold">Here's a tip:
+                                        <span className="font-normal">U have saved 8.834% more than previous month.
+                                            Try spending less money on russians.</span>
+                                    </p>
+                                    <p className="mt-2 text-gray-600 flex">Total Savings: $8,200<span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3 text-green-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+                                    </svg>
+
+                                    </span></p>
+                                    <p className="mt-2 text-gray-600">Growth: <span className="text-green-500">8.8%</span></p>
+                                    <button
+                                        onClick={toggleExpandedDialog}
+                                        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+
                     </div>
 
 
@@ -367,7 +403,7 @@ const Body = () => {
                             <h1 className="font-bold"> Saving Plan</h1>
                             <div className="flex justify-between gap-3 items-center">
                                 <button>+</button>
-                                <h1 className="font-bold text-sm" onClick={handlePlans}>Add Plan</h1>
+                                <h1 className="font-bold text-sm" onClick={handlePlans}></h1>
                             </div>
                         </div>
                         <div className="flex-col gap-3 mt-3 mb-3 ">
@@ -383,7 +419,7 @@ const Body = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="font-bold text-2xl">...</p>
+                                        <button className="font-bold text-2xl cursor-pointer">...</button>
                                     </div>
                                 </div>
                                 <div className="mt-3">
@@ -406,7 +442,7 @@ const Body = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="font-bold text-2xl">...</p>
+                                        <button className="font-bold text-2xl cursor-pointer">...</button>
                                     </div>
                                 </div>
                                 <div className="mt-3">
@@ -418,27 +454,57 @@ const Body = () => {
                                 </div>
                             </div>
 
-                            <div className="h-36 max-w-sm bg-white rounded-2xl mb-3 border px-4 ">
-                                <div className="flex justify-between py-1 ">
+                            <div className="h-36 max-w-sm bg-white rounded-2xl mb-3 border px-4">
+                                <div className="flex justify-between py-1">
                                     <div className="flex gap-2 items-center mt-3">
                                         <div className="bg-gray-300 py-2 px-2 rounded-xl">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><path fill="currentColor" d="M254.84 255.64a127.867 127.867 0 1 0 61.614 76.03a127.04 127.04 0 0 0-61.615-76.03zm-31.233 212.62a103.9 103.9 0 0 1-79.58-8.33a104.52 104.52 0 1 1 79.58 8.33m54.65-125.248a87.963 87.963 0 1 0-59.328 109.373a87.414 87.414 0 0 0 59.327-109.373zm-37.1 38.962a8.28 8.28 0 0 1-9.56 6.747l-37.256-6.436a8 8 0 0 1-.827-.186h-.124a8 8 0 0 1-.88-.32l-.24-.104a8 8 0 0 1-.9-.487h-.07l-59.174-37.244a8.28 8.28 0 0 1 8.817-14.012l57.755 36.324l35.67 6.158a8.28 8.28 0 0 1 6.76 9.562zm164.75-76.838c10.09 34.016 15.046 67.203 13.94 93.478c-1.12 26.69-8.156 38.176-14.365 40.018c-6.21 1.842-18.368-3.943-33.87-25.706c-15.244-21.42-29.194-51.95-39.325-85.955c-22.53-75.947-14.933-128.942.424-133.495c15.36-4.553 50.668 35.703 73.197 111.66zm-25.8-95.517a137 137 0 0 0-12.914-15.772q13.712 4.625 26.42 16.65c19.124 18.13 35.33 48.71 44.498 83.886c8.963 34.512 10.35 69.884 3.85 97.06a100 100 0 0 1-6.405 18.523c.362-3.322.632-6.86.797-10.67c1.17-28.044-4.015-63.126-14.612-98.88s-25.354-67.98-41.632-90.798zM357.104 16.1h-16.868v.125a8.77 8.77 0 0 1-.518 6.737a8.77 8.77 0 0 1-5.174 4.398a8.84 8.84 0 0 1-11.125-5.65l-1.748-5.61h-17.417l3.508 10.743c.094.29.218.56.322.838a25.17 25.17 0 0 0-11.456 10.35l-11.383 19.662a25.3 25.3 0 0 0-3.322 10.576a25.5 25.5 0 0 0-7.864 1.263l-19.662 6.437a25.2 25.2 0 0 0-7.358-11.59l-16.92-15.16a25.2 25.2 0 0 0-18.327-6.458a26 26 0 0 0-2.992.34a25.426 25.426 0 0 0-24.464-18.627H161.64a25.416 25.416 0 0 0-25.096 21.64a25.6 25.6 0 0 0-5.38.175a25.22 25.22 0 0 0-16.755 9.84l-13.692 18.11a25.416 25.416 0 0 0 3.177 34.08a25.36 25.36 0 0 0-4.036 22.435l6.456 21.732a25.24 25.24 0 0 0 9.17 13.11a32.267 32.267 0 0 0 25.933 51.496h1.19l4.273 14.395a152 152 0 0 1 5.91-1.904q4.738-1.406 9.51-2.472l-4.316-14.56a32.267 32.267 0 0 0-3.912-57.394a25.27 25.27 0 0 0 .962-17.075l-6.457-21.733a25.24 25.24 0 0 0-7.244-11.55l13.63-18.036a25.2 25.2 0 0 0 4.842-11.517c.62 0 1.252.072 1.883.072h22.706a25.4 25.4 0 0 0 4.346-.382a25.2 25.2 0 0 0 7.513 12.138l16.807 15.12a25.28 25.28 0 0 0 16.94 6.48a25.6 25.6 0 0 0 6.002-.726c.062.228.124.445.197.673a25.43 25.43 0 0 0 24.103 17.51a25.5 25.5 0 0 0 7.906-1.273l21.576-7.047a25.42 25.42 0 0 0 17.447-22.022a25.5 25.5 0 0 0 6.56-.88a25.2 25.2 0 0 0 15.41-11.828l11.384-19.662a25.33 25.33 0 0 0 1.83-21.37A25.44 25.44 0 0 0 357.104 16.1M122.19 147.808l-6.457-21.732a8.745 8.745 0 0 1 7.027-11.207c.414 0 .828-.063 1.242-.114h.186a8.84 8.84 0 0 1 8.465 6.312l6.458 21.732a8.817 8.817 0 0 1-4.987 10.618q-.946.217-1.894.497l-.415.134a8.84 8.84 0 0 1-9.603-6.24zm19.23 21.308a15.875 15.875 0 1 1-5.465 1.035a26 26 0 0 0 1.914-.487l.796-.26a15.7 15.7 0 0 1 2.773-.288zm.237-92.382l-13.64 18.12a8.78 8.78 0 0 1-5.474 3.353c-.497 0-1.035.083-1.5.145a8.817 8.817 0 0 1-7.11-14.124l13.69-18.11a8.827 8.827 0 1 1 14.034 10.617zm50.594-23.036q-.61.89-1.148 1.81a8.8 8.8 0 0 1-6.8 3.21H161.64a8.827 8.827 0 1 1 0-17.645h22.704a8.807 8.807 0 0 1 7.948 12.625zm44.334 35.496a8.817 8.817 0 0 1-12.418.673l-16.89-15.16a8.83 8.83 0 0 1-2.07-10.35q.57-.828 1.036-1.697c.103-.125.196-.26.31-.384a8.84 8.84 0 0 1 12.42-.672l16.898 15.17a8.817 8.817 0 0 1 .766 12.42zm53.202 8.486a8.77 8.77 0 0 1-5.175 4.397l-21.493 7.058a8.827 8.827 0 1 1-5.484-16.775l21.587-7.048a8.827 8.827 0 0 1 10.607 12.377zm36.416-42.513L314.82 74.83A8.827 8.827 0 0 1 299.533 66l11.383-19.662a8.843 8.843 0 1 1 15.327 8.827z" /></svg>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="2em"
+                                                height="2em"
+                                                viewBox="0 0 512 512"
+                                            >
+                                                <path
+                                                    fill="currentColor"
+                                                    d="M254.84 255.64a127.867 127.867 0 1 0 61.614 76.03a127.04 127.04 0 0 0-61.615-76.03zm-31.233 212.62a103.9 103.9 0 0 1-79.58-8.33a104.52 104.52 0 1 1 79.58 8.33m54.65-125.248a87.963 87.963 0 1 0-59.328 109.373a87.414 87.414 0 0 0 59.327-109.373zm-37.1 38.962a8.28 8.28 0 0 1-9.56 6.747l-37.256-6.436a8 8 0 0 1-.827-.186h-.124a8 8 0 0 1-.88-.32l-.24-.104a8 8 0 0 1-.9-.487h-.07l-59.174-37.244a8.28 8.28 0 0 1 8.817-14.012l57.755 36.324l35.67 6.158a8.28 8.28 0 0 1 6.76 9.562zm164.75-76.838c10.09 34.016 15.046 67.203 13.94 93.478c-1.12 26.69-8.156 38.176-14.365 40.018c-6.21 1.842-18.368-3.943-33.87-25.706c-15.244-21.42-29.194-51.95-39.325-85.955c-22.53-75.947-14.933-128.942.424-133.495c15.36-4.553 50.668 35.703 73.197 111.66zm-25.8-95.517a137 137 0 0 0-12.914-15.772q13.712 4.625 26.42 16.65c19.124 18.13 35.33 48.71 44.498 83.886c8.963 34.512 10.35 69.884 3.85 97.06a100 100 0 0 1-6.405 18.523c.362-3.322.632-6.86.797-10.67c1.17-28.044-4.015-63.126-14.612-98.88s-25.354-67.98-41.632-90.798zM357.104 16.1h-16.868v.125a8.77 8.77 0 0 1-.518 6.737a8.77 8.77 0 0 1-5.174 4.398a8.84 8.84 0 0 1-11.125-5.65l-1.748-5.61h-17.417l3.508 10.743c.094.29.218.56.322.838a25.17 25.17 0 0 0-11.456 10.35l-11.383 19.662a25.3 25.3 0 0 0-3.322 10.576a25.5 25.5 0 0 0-7.864 1.263l-19.662 6.437a25.2 25.2 0 0 0-7.358-11.59l-16.92-15.16a25.2 25.2 0 0 0-18.327-6.458a26 26 0 0 0-2.992.34a25.426 25.426 0 0 0-24.464-18.627H161.64a25.416 25.416 0 0 0-25.096 21.64a25.6 25.6 0 0 0-5.38.175a25.22 25.22 0 0 0-16.755 9.84l-13.692 18.11a25.416 25.416 0 0 0 3.177 34.08a25.36 25.36 0 0 0-4.036 22.435l6.456 21.732a25.24 25.24 0 0 0 9.17 13.11a32.267 32.267 0 0 0 25.933 51.496h1.19l4.273 14.395a152 152 0 0 1 5.91-1.904q4.738-1.406 9.51-2.472l-4.316-14.56a32.267 32.267 0 0 0-3.912-57.394a25.27 25.27 0 0 0 .962-17.075l-6.457-21.733a25.24 25.24 0 0 0-7.244-11.55l13.63-18.036a25.2 25.2 0 0 0 4.842-11.517c.62 0 1.252.072 1.883.072h22.706a25.4 25.4 0 0 0 4.346-.382a25.2 25.2 0 0 0 7.513 12.138l16.807 15.12a25.28 25.28 0 0 0 16.94 6.48a25.6 25.6 0 0 0 6.002-.726c.062.228.124.445.197.673a25.43 25.43 0 0 0 24.103 17.51a25.5 25.5 0 0 0 7.906-1.273l21.576-7.047a25.42 25.42 0 0 0 17.447-22.022a25.5 25.5 0 0 0 6.56-.88a25.2 25.2 0 0 0 15.41-11.828l11.384-19.662a25.33 25.33 0 0 0 1.83-21.37A25.44 25.44 0 0 0 357.104 16.1M122.19 147.808l-6.457-21.732a8.745 8.745 0 0 1 7.027-11.207c.414 0 .828-.063 1.242-.114h.186a8.84 8.84 0 0 1 8.465 6.312l6.458 21.732a8.817 8.817 0 0 1-4.987 10.618q-.946.217-1.894.497l-.415.134a8.84 8.84 0 0 1-9.603-6.24zm19.23 21.308a15.875 15.875 0 1 1-5.465 1.035a26 26 0 0 0 1.914-.487l.796-.26a15.7 15.7 0 0 1 2.773-.288zm.237-92.382l-13.64 18.12a8.78 8.78 0 0 1-5.474 3.353c-.497 0-1.035.083-1.5.145a8.817 8.817 0 0 1-7.11-14.124l13.69-18.11a8.827 8.827 0 1 1 14.034 10.617zm50.594-23.036q-.61.89-1.148 1.81a8.8 8.8 0 0 1-6.8 3.21H161.64a8.827 8.827 0 1 1 0-17.645h22.704a8.807 8.807 0 0 1 7.948 12.625zm44.334 35.496a8.817 8.817 0 0 1-12.418.673l-16.89-15.16a8.83 8.83 0 0 1-2.07-10.35q.57-.828 1.036-1.697c.103-.125.196-.26.31-.384a8.84 8.84 0 0 1 12.42-.672l16.898 15.17a8.817 8.817 0 0 1 .766 12.42zm53.202 8.486a8.77 8.77 0 0 1-5.175 4.397l-21.493 7.058a8.827 8.827 0 1 1-5.484-16.775l21.587-7.048a8.827 8.827 0 0 1 10.607 12.377zm36.416-42.513L314.82 74.83A8.827 8.827 0 0 1 299.533 66l11.383-19.662a8.843 8.843 0 1 1 15.327 8.827z"
+                                                />
+                                            </svg>
                                         </div>
                                         <div className="flex-col gap-1">
                                             <h1 className="font-bold text-sm">New Hublot Ser-9</h1>
                                             <p className="font-thin text-sm">Target: $321,000</p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <p className="font-bold text-2xl">...</p>
+                                    <div className="relative">
+                                        <button
+                                            onClick={toggleDropdown}
+                                            className="font-bold text-2xl cursor-pointer"
+                                        >
+                                            ...
+                                        </button>
+
+                                        {isDropdownOpen && (
+                                            <div className="absolute right-0 mt-2 w-[200px] bg-gray-100 border rounded-xl shadow-lg ">
+                                                <ul className="py-1">
+                                                    <li className=" flex px-4 justify-end"><button className=" font-bold  text-red-500 " onClick={() => { setDropdownOpen(false) }}>X</button></li>
+                                                    <li className="px-4 py-2  cursor-pointer">
+                                                        <div className="justify-center bg-purple-100 rounded-xl border border-1 border-gray-600 p-5 font-mono  text-purple-700">U are 79% away from your goal</div>
+                                                    </li>
+                                                    <li className="px-4 py-2  cursor-pointer">
+                                                        <div className="flex justify-center bg-blue-100 rounded-xl hover:bg-blue-300 p-3 border border-gray-600   "><button className="">Delete Goal</button></div>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        )}
+
                                     </div>
                                 </div>
                                 <div className="mt-3">
-                                    <p class="text-base font-semibold text-gray-800">Saving: $70,063</p>
-                                    <div class="w-full bg-red-200 rounded-full h-2 mt-2">
-                                        <div class="bg-red-400 h-2 rounded-full w-6/12"></div>
+                                    <p className="text-base font-semibold text-gray-800">Saving: $70,063</p>
+                                    <div className="w-full bg-red-200 rounded-full h-2 mt-2">
+                                        <div className="bg-red-400 h-2 rounded-full w-6/12"></div>
                                     </div>
-
                                 </div>
                             </div>
                         </div >

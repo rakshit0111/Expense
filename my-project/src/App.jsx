@@ -1,4 +1,5 @@
 
+import MyCat from "./AddCat/AddCat"
 import AddCat from "./AddCat/AddCat"
 import MyModal from "./AddPlan/AddPlan"
 import AddPlanDialog from "./AddPlan/AddPlan"
@@ -21,13 +22,13 @@ function App() {
     <BrowserRouter>
 
       <Routes>
-        <Route index path="/" element={<div className="p-6"><Header /><Body /></div>}></Route>
+        <Route index path="/" element={<div className="p-6"><Header /><MyModal /></div>}></Route>
         <Route index path="/login" element={<Login />}></Route>
         <Route index path="/signup" element={<SignupForm />}></Route>
         <Route index path="/contact" element={<Contact />}></Route>
         <Route index path="/add-trans" element={<AddCat />}></Route>
 
-        <Route index path="/add-plan" element={<AddPlanDialog />}></Route>
+        <Route index path="/add-plan" element={<MyCat />}></Route>
       </Routes>
 
     </BrowserRouter>

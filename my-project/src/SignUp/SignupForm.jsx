@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SignupForm() {
     const [firstName, setFirstName] = useState('');
@@ -11,6 +12,7 @@ function SignupForm() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -23,10 +25,11 @@ function SignupForm() {
             password,
             confirmPassword,
         });
+        navigate('/');
     };
 
     return (
-        <div className="flex items-center border-2 px-5 rounded-3xl border-gray-400 w-[80%] ml-28 h-[640px] bg-violet-100">
+        <div className="flex border-2 px-5 rounded-3xl border-gray-400 w-[80%] ml-28 h-[640px] bg-violet-100 mx-auto ">
             <div
                 className="w-full rounded-xl shadow-md cursor-pointer flex items-center justify-center"
             >
