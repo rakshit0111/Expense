@@ -1,7 +1,12 @@
-import React from 'react'
+// import  createUserWithEmailAndPassword  from '../Auth/firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React from 'react';
+import { auth, db } from '../Auth/firebase';
 
+import { setDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 
 function SignupForm() {
     const [firstName, setFirstName] = useState('');
@@ -14,8 +19,9 @@ function SignupForm() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+
 
         console.log('Form submitted:', {
             firstName,
@@ -26,6 +32,37 @@ function SignupForm() {
             confirmPassword,
         });
         navigate('/');
+
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            const user = auth.currentUser;
+            console.log(user);
+            if (user) {
+                await setDoc(doc(db, "Users", user.uid), {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: user.email,
+                    userName: username,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                })
+            }
+            console.log("Form submitted.");
+        }
+
+        catch (error) {
+            console.log(error.message);
+        }
+
+        // console.log('Form submitted:', {
+        //     firstName,
+        //     lastName,
+        //     email,
+        //     username,
+        //     password,
+        //     confirmPassword,
+        // });
+
     };
 
     return (
@@ -155,7 +192,7 @@ function SignupForm() {
                             </span>
                         </div>
                     </div>
-                    <p className="text-xs text-gray-500 mb-4 text-red-400 italic">
+                    <p className="text-xs text-gray-500 mb-4  italic">
                         *password must not be less than 8 letters, and should contain an
                         UPPERCASE, an LOWERCASE, a number and a special character
                     </p>

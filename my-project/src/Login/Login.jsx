@@ -1,5 +1,12 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// src/Login/Login.js
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
+import { auth } from '../Auth/firebase'
+
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -10,15 +17,24 @@ export const Login = () => {
     const handlePasswordChange = (e) => setPassword(e.target.value);
     const handleRememberMeChange = (e) => setRememberMe(e.target.checked);
     const navigate = useNavigate();
-    const handleSubmit = (e) => {
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form Submitted:', { email, password, rememberMe });
-        navigate('/');
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            console.log("Logged in Successfully");
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+        navigate("/");
     };
 
     return (
-        <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center relative">
+
+        <div className="h-screen w-screen flex bg-[#E7E0FB] justify-center items-center relative" onSubmit={handleSubmit}>
+
             {/* Background Video */}
             <video
                 loop
